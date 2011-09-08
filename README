@@ -1,0 +1,31 @@
+Project: Professor Schedule Manager (PSM).
+
+Group Members:
+Austin Von Nehring
+310-254-7147
+Austin.pvn@gmail.com
+
+Michael Garcia
+561-667-4932
+mgarc87@gmail.com
+
+Jorge Cabot
+786-247-5369
+JCabo001@fiu.edu
+
+Randy Neyra
+786-556-1641
+RNeyra2588@comcast.net
+
+Enmanuel Corvo
+786-506-0427
+ECorvo@live.com
+
+Revision(s):
+September 07, 2011:
+Split project into the following Packages: Interface, Logic, and Storage.
+Imported the necessary Packages.
+Fixed Build Path to consolidate library paths.
+Setup MYSQL (altered local address in Project).
+Project is functional.
+
