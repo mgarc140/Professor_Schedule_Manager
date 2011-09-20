@@ -6,7 +6,6 @@
 
 package PSM_interface;
 
-import javax.swing.JTextField;
 
 /**
  *

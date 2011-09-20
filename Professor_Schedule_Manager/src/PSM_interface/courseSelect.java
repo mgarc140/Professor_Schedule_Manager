@@ -6,7 +6,6 @@
 
 package PSM_interface;
 
-import PSM_logic.*;
 /**
  *
  * @author  Kurt
@@ -14,14 +13,12 @@ import PSM_logic.*;
 public class courseSelect extends javax.swing.JFrame {
     
     /** Creates new form courseSelect2 */
-   //DBConnection Data = new DBConnection();
    
    private static int selection;
    private static boolean courseSelected;
    public String [] listCourses;
    
-   public courseSelect() {
-        String ans = appController.db.fetchCourses();
+   public courseSelect(String ans) {
         System.out.println("Result from Fetch: " +ans);
         listCourses = ans.split(",");
         initComponents();       
@@ -149,10 +146,11 @@ public class courseSelect extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public void launchCourse() {
+    public void launchCourse(String ans) {
+    	final String finalAns = ans;
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new courseSelect().setVisible(true);
+                new courseSelect(finalAns).setVisible(true);
             }
         });
     }

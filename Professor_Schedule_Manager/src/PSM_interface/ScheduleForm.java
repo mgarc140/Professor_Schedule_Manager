@@ -139,10 +139,10 @@ public class ScheduleForm extends javax.swing.JFrame {
         jLabel3.setText("End Date:");
 
         jLabel15.setFont(new java.awt.Font("Arial", 2, 10));
-        jLabel15.setText("(m/dd/yy)");
+        jLabel15.setText("(mm/dd/yy)");
 
         jLabel16.setFont(new java.awt.Font("Arial", 2, 10));
-        jLabel16.setText("(m/dd/yy)");
+        jLabel16.setText("(mm/dd/yy)");
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

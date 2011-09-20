@@ -10,7 +10,6 @@ package PSM_storage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -25,9 +24,7 @@ public class DBConnection
     private String password;
     private String dbAddr;
     private String marcosDb = "jdbc:mysql://localhost:3306/mydb";
-    private String localDb = "jdbc:mysql://localhost:3306/mydb";
     private String result;
-    private String [] courses;
     
     /** Creates a new instance of DBConnection */
     public DBConnection()
@@ -43,7 +40,6 @@ public class DBConnection
         password = pw;
         
         try{
-           // DriverManager.getDriver("com.mysql.jdbc.Driver");
             Class.forName("com.mysql.jdbc.Driver");
             myCon = DriverManager.getConnection(dbAddr,username,password);
         } 
@@ -63,9 +59,7 @@ public class DBConnection
         password = pw;
         
         try{
-           // DriverManager.getDriver("com.mysql.jdbc.Driver");
             Class.forName("com.mysql.jdbc.Driver");
-            // myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/MyDatabase",username,password);
             myCon = DriverManager.getConnection(marcosDb,username,password);
         } 
         // Launch Message Window Here
@@ -94,10 +88,8 @@ public class DBConnection
      
     public int fetchCourseID(int courseID)
     {
-        // SELECT * FROM example WHERE name='Sandy Smith'
         try{
-            Statement s = myCon.createStatement();          
-            // System.out.println("SELECT course_id FROM class100 WHERE course_id = " +courseID +";");
+            Statement s = myCon.createStatement();
             s.executeQuery("SELECT course_id FROM class100 WHERE course_id = " +courseID +";");
             ResultSet res = s.getResultSet();
             res.next();             // Move to first row!
@@ -160,17 +152,13 @@ public class DBConnection
     
     public String fetchCourses()
     {
-        // SELECT * FROM example WHERE name='Sandy Smith'
         try{
            
             
-            Statement s = myCon.createStatement();          
-           // System.out.print("here");
-            // System.out.println("SELECT course_id FROM class100 WHERE course_id = " +courseID +";");
+            Statement s = myCon.createStatement();
             s.executeQuery("SELECT course_id FROM class100;" );
             ResultSet res = s.getResultSet();
             StringBuffer sb = new StringBuffer();
-            //res.next();             // Move to first row!
             while(res.next())
             {
                 
@@ -186,16 +174,12 @@ public class DBConnection
             
         }
         return result;
-        //String[] courses = result.split(",");
-       //return courses;
     }
     
     public String fetchCourseSubj(int courseID)
     {
-        // SELECT * FROM example WHERE name='Sandy Smith'
         try{
-            Statement s = myCon.createStatement();          
-            // System.out.println("SELECT course_id FROM class100 WHERE course_id = " +courseID +";");
+            Statement s = myCon.createStatement();
             s.executeQuery("SELECT course_subject FROM class100 WHERE course_id = " +courseID +";");
             ResultSet res = s.getResultSet();
             res.next();             // Move to first row!
@@ -211,10 +195,8 @@ public class DBConnection
     
     public String fetchCourseName(int courseID)
     {
-        // SELECT * FROM example WHERE name='Sandy Smith'
         try{
-            Statement s = myCon.createStatement();          
-            // System.out.println("SELECT course_id FROM class100 WHERE course_id = " +courseID +";");
+            Statement s = myCon.createStatement();
             s.executeQuery("SELECT course_name FROM class100 WHERE course_id = " +courseID +";");
             ResultSet res = s.getResultSet();
             res.next();             // Move to first row!
@@ -230,10 +212,8 @@ public class DBConnection
     
     public String fetchCourseSemester(int courseID)
     {
-        // SELECT * FROM example WHERE name='Sandy Smith'
         try{
-            Statement s = myCon.createStatement();          
-            // System.out.println("SELECT course_id FROM class100 WHERE course_id = " +courseID +";");
+            Statement s = myCon.createStatement();
             s.executeQuery("SELECT semester FROM class100 WHERE course_id = " +courseID +";");
             ResultSet res = s.getResultSet();
             res.next();             // Move to first row!
@@ -249,10 +229,9 @@ public class DBConnection
     
     public String fetchCourseStart(int courseID)
     {
-        // SELECT * FROM example WHERE name='Sandy Smith'
+        
         try{
-            Statement s = myCon.createStatement();          
-            // System.out.println("SELECT course_id FROM class100 WHERE course_id = " +courseID +";");
+            Statement s = myCon.createStatement();
             s.executeQuery("SELECT start_date FROM class100 WHERE course_id = " +courseID +";");
             ResultSet res = s.getResultSet();
             res.next();             // Move to first row!
@@ -268,11 +247,9 @@ public class DBConnection
     
     public String fetchCourseEnd(int courseID)
     {
-        // SELECT * FROM example WHERE name='Sandy Smith'
        
         try{
-            Statement s = myCon.createStatement();          
-            // System.out.println("SELECT course_id FROM class100 WHERE course_id = " +courseID +";");
+            Statement s = myCon.createStatement(); 
             s.executeQuery("SELECT end_date FROM class100 WHERE course_id = " +courseID +";");
             ResultSet res = s.getResultSet();
             res.next();  
@@ -286,23 +263,6 @@ public class DBConnection
         }
        
     }
-    
-    
-//    public String fetchAMPM(int courseID)
-//    {
-//        try{
-//            Statement s = myCon.createStatement();
-//            s.executeQuery("SELECT am_or_pm FROM class100 WHERE course_id = " +courseID +";");
-//            ResultSet res = s.getResultSet();
-//            res.next();
-//            return res.getString("am_or_pm");
-//        }
-//        catch(Exception e)
-//        {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
     
     public String fetchStartMon(int courseID)
     {
@@ -519,8 +479,6 @@ public class DBConnection
     {
         try{
             Statement s = myCon.createStatement();
-           // System.out.println("INSERT INTO Class100 (course_id, course_subject, course_name, semester)" +
-           //         " VALUES ( "+courseID +", '" +courseSubj +"', " +courseName +"', '" +semester +"')");
             s.executeUpdate("INSERT INTO Class100 (course_id, course_subject, course_name, semester)" +
                     " VALUES ( '"+courseID +"', '" +courseSubj +"', '" +courseName +"', '" +semester +"')");
             
@@ -581,7 +539,6 @@ public class DBConnection
                             + "semester VARCHAR (20),"
                             + "start_date VARCHAR (20),"
                             + "end_date VARCHAR (20),"
-//                            + "am_or_pm VARCHAR (5),"
                             + "start_mon VARCHAR (20),"
                             + "end_mon VARCHAR (20),"
                             + "start_tue VARCHAR (20),"
@@ -605,54 +562,9 @@ public class DBConnection
                        
     }
     
-//    public void init()
-//    {
-//        try
-//        {
-//          myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/MyDatabase","root","luis2101");
-//        } catch (SQLException ex)
-//        {
-//            System.out.println("Cannot connect to Database");
-//            ex.printStackTrace();
-//        }
-//         
-//    }
-    
 }
 
 
-// Database Scripts:
-
-//CREATE TABLE Class1(
-//    course_id INT UNSIGNED NOT NULL,
-//    course_subject VARCHAR (20),
-//    course_name VARCHAR (20),
-//
-//    semester VARCHAR (20),
-//    start_date VARCHAR (20),
-//    end_date VARCHAR (20),
-//
-//    am_or_pm VARCHAR (5),
-//    start_mon VARCHAR (20),
-//    end_mon VARCHAR (20),
-//    start_tue VARCHAR (20),
-//    end_tue VARCHAR (20),
-//    start_wed VARCHAR (20),
-//    end_wed VARCHAR (20),
-//    start_thu VARCHAR (20),
-//    end_thu VARCHAR (20),
-//    start_fri VARCHAR (20),
-//    end_fri VARCHAR (20),
-//    start_sat VARCHAR (20),
-//    end_sat VARCHAR (20),
-//
-//
-//    PRIMARY KEY (course_id)
-//);
-
-//    INSERT INTO class1
-//        VALUES(4010,'CEN','Software Engineering','Spring 2008','01-02-08','04-20-08','am','12:00','12:50','null','null',
-//               '12:00','12:50','null','null','12:00','12:50','null','null')
 
 
 
