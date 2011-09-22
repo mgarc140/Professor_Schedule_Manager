@@ -4,6 +4,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="H:/Eclipse/Professor_Schedule_Manager.git/Professor_Schedule_Manager/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="H:/Eclipse/Professor_Schedule_Manager.git/Professor_Schedule_Manager/libraries/mysql-connector-java-5.1.17-bin.jar"/>
+<<<<<<< .merge_file_a01780
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+=======
+>>>>>>> .merge_file_a03344
 	<classpathentry kind="output" path="bin"/>
 </classpath>
