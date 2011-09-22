@@ -21,11 +21,11 @@ public class InterfaceController {
     public MainMenu mm = new MainMenu();
     public LogOutConfirm logout = new LogOutConfirm();
     public courseSelect cs;
-    private appController appController = new appController();
+    private appController appController;
     
-    public InterfaceController()
+    public InterfaceController(appController app)
     {
-        
+       this.appController = app;
     }
     
     public void passwordLock()

@@ -62,7 +62,7 @@ public class appController {
     private static boolean logoutSel = false;
     private static int clearDate, clearMonth, clearYear;
     private static int counter = 0;
-    private static InterfaceController ic = new InterfaceController();
+    private static InterfaceController ic;
     private static LogicToDBFacade auth = new LogicToDBFacade();
     private static int courseSel;
     private static long classEnded = 0;
@@ -70,154 +70,153 @@ public class appController {
     
     /** Creates a new instance of ApplicationLogic */
     public appController() {
-        hr = min = 0;
-    }
-    
-    public static void main(String args[])
-    {
-       while(!loggedin)
-       {           
-           ic.Initiate_Login_Form();            
-           
-            do
-            {
-                dataReceived = ic.log.dataReceived();
-                sleep(300);
-                
-            }while(!dataReceived);
-            ic.log.setDataRec(false);
-            dataReceived = false;
-            username = ic.log.getUsername();
-            password = ic.log.getPassword();
+        ic = new InterfaceController(this);
+    	hr = min = 0;
+        
+        while(!loggedin)
+        {           
+            ic.Initiate_Login_Form();            
+            
+             do
+             {
+                 dataReceived = ic.log.dataReceived();
+                 sleep(300);
+                 
+             }while(!dataReceived);
+             ic.log.setDataRec(false);
+             dataReceived = false;
+             username = ic.log.getUsername();
+             password = ic.log.getPassword();
 
-            
-            auth = new LogicToDBFacade();
-            if(auth.validate_Login(username,password)){
-                loggedin = true;
-                auth.logout();
-                auth.validate_Login(username, password);
+             
+             auth = new LogicToDBFacade();
+             if(auth.validate_Login(username,password)){
+                 loggedin = true;
+                 auth.logout();
+                 auth.validate_Login(username, password);
+             }
+             
+               
+             if(!loggedin){
+                 ic.Initiate_IncorrectLogin();
+                 counter++;
+                 while(!dataReceived)
+                 {
+                     dataReceived = ic.msg.ack;
+                     System.out.println("in");
+                 }
+                 dataReceived = false;
+                 ic.msg.ack = false;
+                 
+             }
+             if(counter >= 3){
+                
+                 ic.passwordLock();
+                 while(!dataReceived)
+                 {
+                     dataReceived = ic.msg.ack;
+                     
+                 }
+                 System.exit(0);
+              }
+        }
+ 	   
+        ic.Initiate_MainMenu();
+        if(checkClear())
+        {
+           auth.clearDatabase();
+        }
+        
+        checkTimes();
+        while(!logoutSel)
+        {
+            while(!dataReceived)
+            {
+                dataReceived = ic.mm.dataRec();
+                edSchedSel = ic.mm.editSchedSelected();
+                schedSetupSel = ic.mm.InitSetupSelected();
+                logoutSel = ic.mm.logoutSelected();
+                                             
+                if(classEnded != 0 && System.currentTimeMillis() - classEnded >= TENMIN)
+                {
+                  System.exit(0);   
+                }
+                
+                sleep(500);
             }
-            
-              
-            if(!loggedin){
-                ic.Initiate_IncorrectLogin();
-                counter++;
+            ic.mm.setdataRec(false);
+            dataReceived = false;
+
+            if(logoutSel)
+            {
+                // Logout 
+                auth.logout();
+                ic.Initiate_Logout();
+
+            }
+            else if(edSchedSel)
+            {
+                 //Edit Schedule
+                ic.Course_Select_Form();
+
                 while(!dataReceived)
                 {
-                    dataReceived = ic.msg.ack;
-                    System.out.println("in");
+                    dataReceived = ic.cs.courseSelected();
+                    sleep(300);
+                }
+
+                ic.cs.setCourseSelected(false);
+                dataReceived = false;
+
+                courseSel = ic.cs.getSelection();
+                System.out.println("Course: " + courseSel);
+                getData(courseSel);
+                
+                ic.Pre_Filled_Form(courseSel,defSub,defCourseName,defSemester,defCourseStart,
+                        defCourseEnd,defMonStart,defMonEnd,defTueStart,defTueEnd,defWedStart,
+                        defWedEnd,defThuStart,defThuEnd,defFriStart,defFriEnd,defSatStart,defSatEnd);
+                
+                while(!dataReceived)
+                {
+                    dataReceived = ic.edSched.dataRec(); 
+                    sleep(300);
+                }
+                
+                dataReceived = false;
+                ic.edSched.setDataRec(false);
+
+                auth.storeClassSched(ic.edSched.defCourseID, ic.edSched.newCourseStart, ic.edSched.newCourseEnd, 
+                        ic.edSched.newMonStart, ic.edSched.newMonEnd, ic.edSched.newTueStart, ic.edSched.newTueEnd, 
+                        ic.edSched.newWedStart, ic.edSched.newWedEnd, ic.edSched.newThuStart, ic.edSched.newThuEnd, 
+                        ic.edSched.newFriStart, ic.edSched.newFriEnd, ic.edSched.newSatStart, ic.edSched.newSatEnd);
+
+
+            }
+            else if(schedSetupSel)
+            {
+                ic.sched.launchInitial();
+                //Initial Schedule Setup
+                while(!ic.sched.dataRec())
+                {
+                    dataReceived = ic.sched.dataRec();
+                    sleep(300);
                 }
                 dataReceived = false;
-                ic.msg.ack = false;
+                ic.sched.setDataRec(false);
                 
+                auth.storeClassInfo(ic.sched.newCourseID, ic.sched.newSub, ic.sched.newCourseName,ic.sched.newSemester);
+                auth.storeClassSched(ic.sched.newCourseID, ic.sched.newCourseStart, ic.sched.newCourseEnd, 
+                        ic.sched.newMonStart, ic.sched.newMonEnd, ic.sched.newTueStart, ic.sched.newTueEnd, 
+                        ic.sched.newWedStart, ic.sched.newWedEnd, ic.sched.newThuStart, ic.sched.newThuEnd, 
+                        ic.sched.newFriStart, ic.sched.newFriEnd, ic.sched.newSatStart, ic.sched.newSatEnd);
+
             }
-            if(counter >= 3){
-               
-                ic.passwordLock();
-                while(!dataReceived)
-                {
-                    dataReceived = ic.msg.ack;
-                    
-                }
-                System.exit(0);
-             }
-       }
-	   
-       ic.Initiate_MainMenu();
-       if(checkClear())
-       {
-          auth.clearDatabase();
-       }
-       
-       checkTimes();
-       while(!logoutSel)
-       {
-           while(!dataReceived)
-           {
-               dataReceived = ic.mm.dataRec();
-               edSchedSel = ic.mm.editSchedSelected();
-               schedSetupSel = ic.mm.InitSetupSelected();
-               logoutSel = ic.mm.logoutSelected();
-                                            
-               if(classEnded != 0 && System.currentTimeMillis() - classEnded >= TENMIN)
-               {
-                 System.exit(0);   
-               }
-               
-               sleep(500);
-           }
-           ic.mm.setdataRec(false);
-           dataReceived = false;
 
-           if(logoutSel)
-           {
-               // Logout 
-               auth.logout();
-               ic.Initiate_Logout();
-
-           }
-           else if(edSchedSel)
-           {
-                //Edit Schedule
-               ic.Course_Select_Form();
-
-               while(!dataReceived)
-               {
-                   dataReceived = ic.cs.courseSelected();
-                   sleep(300);
-               }
-
-               ic.cs.setCourseSelected(false);
-               dataReceived = false;
-
-               courseSel = ic.cs.getSelection();
-               System.out.println("Course: " + courseSel);
-               getData(courseSel);
-               
-               ic.Pre_Filled_Form(courseSel,defSub,defCourseName,defSemester,defCourseStart,
-                       defCourseEnd,defMonStart,defMonEnd,defTueStart,defTueEnd,defWedStart,
-                       defWedEnd,defThuStart,defThuEnd,defFriStart,defFriEnd,defSatStart,defSatEnd);
-               
-               while(!dataReceived)
-               {
-                   dataReceived = ic.edSched.dataRec(); 
-                   sleep(300);
-               }
-               
-               dataReceived = false;
-               ic.edSched.setDataRec(false);
-
-               auth.storeClassSched(ic.edSched.defCourseID, ic.edSched.newCourseStart, ic.edSched.newCourseEnd, 
-                       ic.edSched.newMonStart, ic.edSched.newMonEnd, ic.edSched.newTueStart, ic.edSched.newTueEnd, 
-                       ic.edSched.newWedStart, ic.edSched.newWedEnd, ic.edSched.newThuStart, ic.edSched.newThuEnd, 
-                       ic.edSched.newFriStart, ic.edSched.newFriEnd, ic.edSched.newSatStart, ic.edSched.newSatEnd);
-
-
-           }
-           else if(schedSetupSel)
-           {
-               ic.sched.launchInitial();
-               //Initial Schedule Setup
-               while(!ic.sched.dataRec())
-               {
-                   dataReceived = ic.sched.dataRec();
-                   sleep(300);
-               }
-               dataReceived = false;
-               ic.sched.setDataRec(false);
-               
-               auth.storeClassInfo(ic.sched.newCourseID, ic.sched.newSub, ic.sched.newCourseName,ic.sched.newSemester);
-               auth.storeClassSched(ic.sched.newCourseID, ic.sched.newCourseStart, ic.sched.newCourseEnd, 
-                       ic.sched.newMonStart, ic.sched.newMonEnd, ic.sched.newTueStart, ic.sched.newTueEnd, 
-                       ic.sched.newWedStart, ic.sched.newWedEnd, ic.sched.newThuStart, ic.sched.newThuEnd, 
-                       ic.sched.newFriStart, ic.sched.newFriEnd, ic.sched.newSatStart, ic.sched.newSatEnd);
-
-           }
-
-           dataReceived = false;
-       }
-       
+            dataReceived = false;
+        }
+        
     }
+    
    
     public static boolean checkClear()
     {
