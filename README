@@ -29,3 +29,5 @@ Fixed Build Path to consolidate library paths.
 Setup MYSQL (altered local address in Project).
 Project is functional.
 
+September 19th, 2011:
+Major refactoring. Facades created to eliminate coupling.
