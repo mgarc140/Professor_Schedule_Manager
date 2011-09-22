@@ -1,14 +1,14 @@
 package PSM_logic;
 
-import PSM_storage.DBConnection;
+import PSM_storage.DBFacade;
 import java.util.ArrayList;
 
-public class LogicToDBFacade {
+public class DBConnect {
     private ArrayList<String> schedule = new ArrayList<String>();
-	private DBConnection db;
+	private DBFacade db;
     
-    public LogicToDBFacade() {
-        db = new DBConnection();     
+    public DBConnect() {
+        db = new DBFacade();     
     }
     
     public boolean validate_Login(String username, String password)

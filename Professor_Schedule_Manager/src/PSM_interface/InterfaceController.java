@@ -10,7 +10,7 @@ package PSM_interface;
 //  @ Author : 
 //
 //
-import PSM_logic.appController;
+import PSM_logic.AppController;
 
 public class InterfaceController {
     
@@ -20,10 +20,10 @@ public class InterfaceController {
     public PrefilledScheduleForm edSched = new PrefilledScheduleForm();
     public MainMenu mm = new MainMenu();
     public LogOutConfirm logout = new LogOutConfirm();
-    public courseSelect cs;
-    private appController appController;
+    public CourseSelect cs;
+    private AppController appController;
     
-    public InterfaceController(appController app)
+    public InterfaceController(AppController app)
     {
        this.appController = app;
     }
@@ -64,7 +64,7 @@ public class InterfaceController {
     
     public void Course_Select_Form(){
     	String ans = appController.fetchCourses();
-        cs = new courseSelect(ans);
+        cs = new CourseSelect(ans);
         cs.launchCourse(ans);
     }
     public void Initiate_Login_Form() {

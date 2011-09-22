@@ -10,10 +10,10 @@ package PSM_interface;
  *
  * @author  Kurt
  */
-public class endOfClass extends javax.swing.JFrame {
+public class EndOfClass extends javax.swing.JFrame {
     
     /** Creates new form endOfClass */
-    public endOfClass() {
+    public EndOfClass() {
         initComponents();
     }
     
@@ -80,7 +80,7 @@ public class endOfClass extends javax.swing.JFrame {
     public void launchEnd() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new endOfClass().setVisible(true);
+                new EndOfClass().setVisible(true);
             }
         });
     }

@@ -25,7 +25,7 @@ import PSM_interface.InterfaceController;
  *
  * @author lrizo002
  */
-public class appController {
+public class AppController {
     
     private static final long TENMIN = 600000;
     
@@ -63,17 +63,20 @@ public class appController {
     private static int clearDate, clearMonth, clearYear;
     private static int counter = 0;
     private static InterfaceController ic;
-    private static LogicToDBFacade auth = new LogicToDBFacade();
+    private static DBConnect auth = new DBConnect();
     private static int courseSel;
     private static long classEnded = 0;
        
     
     /** Creates a new instance of ApplicationLogic */
-    public appController() {
+    public AppController() {
         ic = new InterfaceController(this);
-    	hr = min = 0;
-        
-        while(!loggedin)
+    	hr = min = 0;        
+    }
+
+    public void programDisaster(){
+
+    	while(!loggedin)
         {           
             ic.Initiate_Login_Form();            
             
@@ -89,7 +92,7 @@ public class appController {
              password = ic.log.getPassword();
 
              
-             auth = new LogicToDBFacade();
+             auth = new DBConnect();
              if(auth.validate_Login(username,password)){
                  loggedin = true;
                  auth.logout();
@@ -214,10 +217,7 @@ public class appController {
 
             dataReceived = false;
         }
-        
     }
-    
-   
     public static boolean checkClear()
     {
         ArrayList<String> endDates = auth.getEndDates();
@@ -322,13 +322,12 @@ public class appController {
         defSatEnd = schedule.get(16);           
     }
     
-    
     public static void sleep(int milli)
     {
           try { 
            Thread.sleep(milli);
         } catch (InterruptedException ex) {
-           Logger.getLogger(appController.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -356,7 +355,6 @@ public class appController {
         }
     };
     
-    
     private static TimerTask endofclass = new TimerTask()
     {
         public void run()
@@ -366,7 +364,6 @@ public class appController {
         }
     };
     
-    
     private static TimerTask systemExit = new TimerTask()
     {
         public void run()
@@ -374,8 +371,7 @@ public class appController {
             System.exit(0);
         }
     };
-    
-       
+          
     public void setTime(int year, int month, int date, int hours, int mins)
     {
         setRun.set(year, month, date, hours, mins);
@@ -392,10 +388,12 @@ public class appController {
     }
     
     public static void timerParser(String timer)
+
     {
         hr = Integer.parseInt(timer.substring(0,2));
         min = Integer.parseInt(timer.substring(3,5));
     }
+    
     public static void dateParser(String timer)
     {
         

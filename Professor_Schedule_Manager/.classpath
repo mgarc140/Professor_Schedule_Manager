@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/HP-User/Desktop/mgarc140/Professor_Schedule_Manager/swing-layout-1.0.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HP-User/Desktop/mgarc140/Professor_Schedule_Manager/libraries/mysql-connector-java-5.1.17-bin.jar"/>
+	<classpathentry kind="lib" path="H:/Eclipse/Professor_Schedule_Manager.git/Professor_Schedule_Manager/swing-layout-1.0.3.jar"/>
+	<classpathentry kind="lib" path="H:/Eclipse/Professor_Schedule_Manager.git/Professor_Schedule_Manager/libraries/mysql-connector-java-5.1.17-bin.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * @author Luis
  */
-public class DBConnection
+public class DBFacade
 {
     private Connection myCon;
     private String username;
@@ -27,7 +27,7 @@ public class DBConnection
     private String result;
     
     /** Creates a new instance of DBConnection */
-    public DBConnection()
+    public DBFacade()
     {
       
     }

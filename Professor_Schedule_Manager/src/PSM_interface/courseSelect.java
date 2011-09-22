@@ -10,7 +10,7 @@ package PSM_interface;
  *
  * @author  Kurt
  */
-public class courseSelect extends javax.swing.JFrame {
+public class CourseSelect extends javax.swing.JFrame {
     
     /** Creates new form courseSelect2 */
    
@@ -18,7 +18,7 @@ public class courseSelect extends javax.swing.JFrame {
    private static boolean courseSelected;
    public String [] listCourses;
    
-   public courseSelect(String ans) {
+   public CourseSelect(String ans) {
         System.out.println("Result from Fetch: " +ans);
         listCourses = ans.split(",");
         initComponents();       
@@ -150,7 +150,7 @@ public class courseSelect extends javax.swing.JFrame {
     	final String finalAns = ans;
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new courseSelect(finalAns).setVisible(true);
+                new CourseSelect(finalAns).setVisible(true);
             }
         });
     }
